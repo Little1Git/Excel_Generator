@@ -156,9 +156,11 @@ public class Excel_Reader {
         Map<String, OtherInfo> otherInfoMap = otherInfoList.stream()
                 .collect(Collectors.toMap(OtherInfo::getStation_index, otherInfo -> otherInfo));
 
-        Map<String, List<Record>> groupedRecords_by_station = Record.groupByStationName(records);
-        Map<String, Map<String, List<Record>>> stations_intervals = Record.group_by_stations_and_interval(groupedRecords_by_station);
-        Map<String, Map<List<String>, List<Record>>> classifiedRecords_by_row = Record.classifyRecords(groupedRecords_by_station);
+        Map<String, List<Record>> groupedRecords_by_station = Record.groupByStationName(records);//stationname分类
+
+
+        Map<String, Map<String, List<Record>>> stations_intervals = Record.group_by_stations_and_interval(groupedRecords_by_station);// confirm
+        Map<String, Map<List<String>, List<Record>>> classifiedRecords_by_row = Record.classifyRecords(groupedRecords_by_station);// 二维表
         int num_of_stations = classifiedRecords_by_row.size();
         System.out.println("num_of_stations: " + num_of_stations);
         classifiedRecords_by_row.forEach((stationName, Map_of_Row) -> {
