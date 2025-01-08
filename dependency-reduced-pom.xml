@@ -24,6 +24,11 @@
                   </excludes>
                 </filter>
               </filters>
+              <transformers>
+                <transformer>
+                  <mainClass>excel_processor.Excel_Reader</mainClass>
+                </transformer>
+              </transformers>
             </configuration>
           </execution>
         </executions>

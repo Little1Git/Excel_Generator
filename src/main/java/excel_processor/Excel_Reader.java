@@ -149,7 +149,12 @@ public class Excel_Reader {
     }
 
     public static void Generate_Excel(List<Record> records, List<OtherInfo> otherInfoList) {
-        String father_path="data/files/excel";
+//        String father_path="data/files/excel";
+        // 获取当前执行路径
+        String currentPath = System.getProperty("user.dir");
+        // 输出当前路径
+        System.out.println("当前执行路径: " + currentPath);
+        String father_path="/opt/mendix/build/data/files/excel";
         exist_or_create(father_path);
 
         // 使用 Stream API 创建 Map
@@ -178,7 +183,7 @@ public class Excel_Reader {
             // 提取 "2025"
             String year = xlsx_date.substring(24, 28);
             String xlsx_name = stationName.replaceAll("[/\\\\:*?\"<>|]", "_");
-            xlsx_name += "_" + stationindex + "_" + year + "_" + month;
+            xlsx_name += "_" + stationindex + "_" + year + "_" + convertMonthToNumber(month);
 
             String outputFile = father_path + "/" + xlsx_name + ".xlsx";
             System.out.println(outputFile);
@@ -304,6 +309,22 @@ public class Excel_Reader {
         monthMap.put("Oct", "October");
         monthMap.put("Nov", "November");
         monthMap.put("Dec", "December");
+        return (String)monthMap.getOrDefault(monthAbbr, "Invalid Month");
+    }
+    private static String convertMonthToNumber(String monthAbbr) {
+        Map<String, String> monthMap = new HashMap();
+        monthMap.put("Jan", "01");
+        monthMap.put("Feb", "02");
+        monthMap.put("Mar", "03");
+        monthMap.put("Apr", "04");
+        monthMap.put("May", "05");
+        monthMap.put("Jun", "06");
+        monthMap.put("Jul", "07");
+        monthMap.put("Aug", "08");
+        monthMap.put("Sep", "09");
+        monthMap.put("Oct", "10");
+        monthMap.put("Nov", "11");
+        monthMap.put("Dec", "12");
         return (String)monthMap.getOrDefault(monthAbbr, "Invalid Month");
     }
 }
