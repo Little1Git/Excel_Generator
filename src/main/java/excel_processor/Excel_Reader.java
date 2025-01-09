@@ -212,7 +212,7 @@ public class Excel_Reader {
             String outputFile = father_path + "/" + xlsx_name + ".xlsx";
             System.out.println(outputFile);
 
-            Excel_Copy_Row.copy_rows_in_right_sheet(num_of_Rows, outputFile);
+            ExcelCopyRow.copyRowsInSheet(num_of_Rows, outputFile);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String Update_time = dateFormat.format(new Date());
             String Machine_Name = "Machine Name: " + stationName;
