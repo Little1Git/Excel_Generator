@@ -130,74 +130,70 @@ public class ExcelReplaceRow {
         }
     }
 
-    public void processRowsConfirm(int row_num, List<Record> recordsList) {
+    public void processRowsConfirm(int rowNumber, List<Record> recordList) {
         Workbook workbook = null;
 
         try {
+            // 读取 Excel 文件
             workbook = this.readExcelTemplate();
             Sheet sheet = workbook.getSheetAt(0);
-            Row row = sheet.getRow(row_num - 1);
+
+            // 获取或创建指定行
+            Row row = sheet.getRow(rowNumber - 1);
             if (row == null) {
-                row = sheet.createRow(row_num - 1);
+                row = sheet.createRow(rowNumber - 1);
             }
 
-            Iterator var6 = recordsList.iterator();
+            // 遍历记录列表
+            for (Record record : recordList) {
+                // 从日期中提取天数部分
+                char ninthChar = record.date.charAt(8);
+                char tenthChar = record.date.charAt(9);
+                String dayString = String.valueOf(ninthChar) + tenthChar;
+                int day = Integer.parseInt(dayString);
+                System.out.println("Day (用于计算插入列位置): " + day);
 
-            while(true) {
-                while(var6.hasNext()) {
-                    Record record = (Record)var6.next();
-                    char ninthChar = record.date.charAt(8);
-                    char tenthChar = record.date.charAt(9);
-                    String var10000 = String.valueOf(ninthChar);
-                    int day = Integer.parseInt(var10000 + String.valueOf(tenthChar));
-                    System.out.println("Day(用于计算插入列位置): " + day);
-                    Cell cur_cell = row.getCell(day + 6 - 1);
-                    String result;
-                    String existingContent;
-                    if (record.checkexecuteby.equals("NULL")) {
-                        result = "-";
-                    } else {
-                        existingContent = record.checkexecuteby;
-                        result = existingContent.split("\\s*\\(")[0];
-                    }
-
-                    existingContent = cur_cell.getStringCellValue();
-                    if (existingContent != null && !existingContent.trim().isEmpty()) {
-                        cur_cell.setCellValue(existingContent + " " + result);
-                    } else {
-                        cur_cell.setCellValue(result);
-                    }
+                // 获取或创建对应的单元格
+                Cell cell = row.getCell(day + 6 - 1);
+                if (cell == null) {
+                    cell = row.createCell(day + 6 - 1);
                 }
 
-                FileOutputStream fileOutputStream = new FileOutputStream(this.targetFile);
-
-                try {
-                    workbook.write(fileOutputStream);
-                } catch (Throwable var24) {
-                    try {
-                        fileOutputStream.close();
-                    } catch (Throwable var23) {
-                        var24.addSuppressed(var23);
-                    }
-
-                    throw var24;
+                // 根据 checkexecuteby 的值生成结果
+                String result;
+                if ("NULL".equals(record.checkexecuteby)) {
+                    result = "-";
+                } else {
+                    String existingValue = record.checkexecuteby;
+                    result = existingValue.split("\\s*\\(")[0];
                 }
 
-                fileOutputStream.close();
-                return;
+                // 写入或追加到单元格内容
+                String existingContent = cell.getStringCellValue();
+                if (existingContent != null && !existingContent.trim().isEmpty()) {
+                    cell.setCellValue(existingContent + " " + result);
+                } else {
+                    cell.setCellValue(result);
+                }
             }
-        } catch (IOException var25) {
-            var25.printStackTrace();
-            throw new RuntimeException("处理 Excel 文件失败", var25);
+
+            // 将结果写回到文件
+            try (FileOutputStream fileOutputStream = new FileOutputStream(this.targetFile)) {
+                workbook.write(fileOutputStream);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("处理 Excel 文件失败", e);
         } finally {
+            // 确保关闭工作簿
             if (workbook != null) {
                 try {
                     workbook.close();
-                } catch (IOException var22) {
-                    var22.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-
         }
     }
+
 }
