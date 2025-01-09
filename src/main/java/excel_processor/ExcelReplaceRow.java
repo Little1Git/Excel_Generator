@@ -45,85 +45,77 @@ public class ExcelReplaceRow {
         }
     }
 
-    public void processRows(List<String> key, int row_num, List<Record> recordsList) {
+    public void processRows(List<String> headers, int rowNumber, List<Record> recordList) {
         Workbook workbook = null;
 
         try {
+            // 读取 Excel 模板
             workbook = this.readExcelTemplate();
             Sheet sheet = workbook.getSheetAt(0);
-            Row row = sheet.getRow(row_num - 1);
+            Row row = sheet.getRow(rowNumber - 1);
             if (row == null) {
-                row = sheet.createRow(row_num - 1);
+                row = sheet.createRow(rowNumber - 1);
             }
 
-            for(int i = 0; i < 6; ++i) {
-                Cell cell = row.getCell(i);
+            // 设置表头内容
+            for (int columnIndex = 0; columnIndex < 6; ++columnIndex) {
+                Cell cell = row.getCell(columnIndex);
                 if (cell == null) {
-                    cell = row.createCell(i);
+                    cell = row.createCell(columnIndex);
                 }
-
-                cell.setCellValue((String)key.get(i));
+                cell.setCellValue(headers.get(columnIndex));
             }
 
-            Iterator var28 = recordsList.iterator();
+            // 遍历记录列表
+            for (Record record : recordList) {
+                char dayTensDigit = record.date.charAt(8);
+                char dayUnitsDigit = record.date.charAt(9);
+                int day = Integer.parseInt(String.valueOf(dayTensDigit) + dayUnitsDigit);
+                System.out.println("Day (用于计算插入列位置): " + day);
 
-            while(true) {
-                while(var28.hasNext()) {
-                    Record record = (Record)var28.next();
-                    char ninthChar = record.date.charAt(8);
-                    char tenthChar = record.date.charAt(9);
-                    String var10000 = String.valueOf(ninthChar);
-                    int day = Integer.parseInt(var10000 + String.valueOf(tenthChar));
-                    System.out.println("Day(用于计算插入列位置): " + day);
-                    Cell cur_cell = row.getCell(day + 6 - 1);
-                    String result;
-                    String existingContent;
-                    if (record.doexecuteby.equals("NULL")) {
-                        result = "-";
-                    } else {
-                        existingContent = record.doexecuteby;
-                        result = existingContent.split("\\s*\\(")[0];
-                    }
-
-                    existingContent = cur_cell.getStringCellValue();
-                    if (existingContent != null && !existingContent.trim().isEmpty()) {
-                        cur_cell.setCellValue(existingContent + " " + result);
-                    } else {
-                        cur_cell.setCellValue(result);
-                    }
+                // 计算目标列并获取单元格
+                Cell targetCell = row.getCell(day + 6 - 1);
+                if (targetCell == null) {
+                    targetCell = row.createCell(day + 6 - 1);
                 }
 
-                FileOutputStream fileOutputStream = new FileOutputStream(this.targetFile);
-
-                try {
-                    workbook.write(fileOutputStream);
-                } catch (Throwable var25) {
-                    try {
-                        fileOutputStream.close();
-                    } catch (Throwable var24) {
-                        var25.addSuppressed(var24);
-                    }
-
-                    throw var25;
+                // 处理记录的执行者信息
+                String formattedExecutor;
+                if ("NULL".equals(record.doexecuteby)) {
+                    formattedExecutor = "-";
+                } else {
+                    String executorInfo = record.doexecuteby;
+                    formattedExecutor = executorInfo.split("\\s*\\(")[0];
                 }
 
-                fileOutputStream.close();
-                return;
+                // 合并已有内容与新内容
+                String existingContent = targetCell.getStringCellValue();
+                if (existingContent != null && !existingContent.trim().isEmpty()) {
+                    targetCell.setCellValue(existingContent + " " + formattedExecutor);
+                } else {
+                    targetCell.setCellValue(formattedExecutor);
+                }
             }
-        } catch (IOException var26) {
-            var26.printStackTrace();
-            throw new RuntimeException("处理 Excel 文件失败", var26);
+
+            // 保存文件
+            try (FileOutputStream fileOutputStream = new FileOutputStream(this.targetFile)) {
+                workbook.write(fileOutputStream);
+            }
+
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException("处理 Excel 文件失败", exception);
         } finally {
             if (workbook != null) {
                 try {
                     workbook.close();
-                } catch (IOException var23) {
-                    var23.printStackTrace();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
                 }
             }
-
         }
     }
+
 
     public void processRowsConfirm(int rowNumber, List<Record> recordList) {
         Workbook workbook = null;
