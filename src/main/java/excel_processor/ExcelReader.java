@@ -12,76 +12,76 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-public class Excel_Reader {
-    public Excel_Reader() {
+public class ExcelReader {
+    public ExcelReader() {
     }
 
     public static List<Record> readExcel(String filePath) {
-        List<Record> records = new ArrayList();
+        List<Record> records = new ArrayList<>();
 
         try {
-            FileInputStream fis = new FileInputStream(filePath);
+            FileInputStream fileInputStream = new FileInputStream(filePath);
 
             try {
-                Workbook workbook = new XSSFWorkbook(fis);
+                Workbook workbook = new XSSFWorkbook(fileInputStream);
 
                 try {
                     Sheet sheet = workbook.getSheetAt(0);
                     Iterator<Row> rowIterator = sheet.iterator();
+
+                    // 跳过表头
                     if (rowIterator.hasNext()) {
                         rowIterator.next();
                     }
 
-                    while(rowIterator.hasNext()) {
-                        Row row = (Row)rowIterator.next();
+                    while (rowIterator.hasNext()) {
+                        Row row = rowIterator.next();
                         Record record = new Record();
 
-                        System.out.println(getCellValue(row.getCell(2)));
+                        // 读取单元格数据并设置到Record对象中
                         record.setA_id(getCellValue(row.getCell(0)));
                         record.setCheckvalue(getCellValue(row.getCell(1)));
                         record.setDate(getCellValue(row.getCell(2)));
                         record.setRemark(getCellValue(row.getCell(3)));
                         record.setDoexecuteby(getCellValue(row.getCell(4)));
-                        record.setLineindex(getCellValue(row.getCell(5+1)));
-                        record.setCheckexecuteby(getCellValue(row.getCell(6+1)));
-                        record.setStationindex(getCellValue(row.getCell(7+1)));
-                        record.setLinename(getCellValue(row.getCell(8+3)));
-                        record.setShift(getCellValue(row.getCell(9+3)));
-                        record.setStationname(getCellValue(row.getCell(10+3)));
-                        record.setSubmitdate(getCellValue(row.getCell(11+3)));
-                        record.setNo(getCellValue(row.getCell(12+3)));
-                        record.setWhattomaintain(getCellValue(row.getCell(13+3)));
-                        record.setInterval(getCellValue(row.getCell(14+3)).substring(1));
-                        record.setCosttime(getCellValue(row.getCell(15+3)));
-                        record.setDoby(getCellValue(row.getCell(16+3)));
-                        record.setCheckby(getCellValue(row.getCell(17+3)));
+                        record.setLineindex(getCellValue(row.getCell(6))); // 5+1
+                        record.setCheckexecuteby(getCellValue(row.getCell(7))); // 6+1
+                        record.setStationindex(getCellValue(row.getCell(8))); // 7+1
+                        record.setLinename(getCellValue(row.getCell(11))); // 8+3
+                        record.setShift(getCellValue(row.getCell(12))); // 9+3
+                        record.setStationname(getCellValue(row.getCell(13))); // 10+3
+                        record.setSubmitdate(getCellValue(row.getCell(14))); // 11+3
+                        record.setNo(getCellValue(row.getCell(15))); // 12+3
+                        record.setWhattomaintain(getCellValue(row.getCell(16))); // 13+3
+                        record.setInterval(getCellValue(row.getCell(17)).substring(1)); // 14+3
+                        record.setCosttime(getCellValue(row.getCell(18))); // 15+3
+                        record.setDoby(getCellValue(row.getCell(19))); // 16+3
+                        record.setCheckby(getCellValue(row.getCell(20))); // 17+3
 
                         records.add(record);
                     }
-                } catch (Throwable var10) {
+                } catch (Throwable workbookError) {
                     try {
                         workbook.close();
-                    } catch (Throwable var9) {
-                        var10.addSuppressed(var9);
+                    } catch (Throwable closeError) {
+                        workbookError.addSuppressed(closeError);
                     }
-
-                    throw var10;
+                    throw workbookError;
                 }
 
                 workbook.close();
-            } catch (Throwable var11) {
+            } catch (Throwable fileInputStreamError) {
                 try {
-                    fis.close();
-                } catch (Throwable var8) {
-                    var11.addSuppressed(var8);
+                    fileInputStream.close();
+                } catch (Throwable closeError) {
+                    fileInputStreamError.addSuppressed(closeError);
                 }
-
-                throw var11;
+                throw fileInputStreamError;
             }
 
-            fis.close();
-        } catch (IOException var12) {
-            var12.printStackTrace();
+            fileInputStream.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
 
         return records;
@@ -139,9 +139,7 @@ public class Excel_Reader {
 
         // 示例 OtherInfo 列表
         List<OtherInfo> otherInfoList = Arrays.asList(
-//                new OtherInfo("001", "Document1", "Prepare1", "Review1", "Approve1", "Edition1"),
-//                new OtherInfo("002", "Document2", "Prepare2", "Review2", "Approve2", "Edition2"),
-//                new OtherInfo("003", "Document3", "Prepare3", "Review3", "Approve3", "Edition3"),
+
                 new OtherInfo("stationindex1", "Document3", "Prepare3", "Review3", "Approve3", "Edition3"),
                 new OtherInfo("stationindex2", "Document3", "Prepare3", "Review3", "Approve3", "Edition3"),
                 new OtherInfo("S003221", "Document3", "Prepare3", "Review3", "Approve3", "Edition3")

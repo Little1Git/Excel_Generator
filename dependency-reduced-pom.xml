@@ -26,7 +26,7 @@
               </filters>
               <transformers>
                 <transformer>
-                  <mainClass>excel_processor.Excel_Reader</mainClass>
+                  <mainClass>excel_processor.ExcelReader</mainClass>
                 </transformer>
               </transformers>
             </configuration>
