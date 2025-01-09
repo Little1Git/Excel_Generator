@@ -80,7 +80,7 @@ public class Record {
             stationMap.forEach((interval, records) -> {
                 Map<RecordKey, Record> uniqueByCheckexecutebyAndDate = new HashMap<>();
                 records.forEach((record) -> {
-                    RecordKey key = new RecordKey(record.getCheckexecuteby(), record.getDate());
+                    RecordKey key = new RecordKey(getStringBeforeParenthesis(record.getCheckexecuteby()), record.getDate().substring(0, 10));
                     uniqueByCheckexecutebyAndDate.put(key, record);
                 });
                 stationMap.put(interval, new ArrayList<>(uniqueByCheckexecutebyAndDate.values()));
@@ -99,6 +99,20 @@ public class Record {
             });
         });
         return map_of_stations_confirm;
+    }
+    public static String getStringBeforeParenthesis(String input) {
+        if (input == null || input.isEmpty()) {
+            return input; // 如果输入为空，直接返回
+        }
+
+        // 找到 '(' 的位置
+        int index = input.indexOf('(');
+        if (index == -1) {
+            return input.trim(); // 如果没有 '('，返回整个字符串并去除空格
+        }
+
+        // 提取 '(' 之前的子字符串并去除两端空格
+        return input.substring(0, index).trim();
     }
 
 }

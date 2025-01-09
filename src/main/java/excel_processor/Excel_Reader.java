@@ -39,25 +39,7 @@ public class Excel_Reader {
                     while(rowIterator.hasNext()) {
                         Row row = (Row)rowIterator.next();
                         Record record = new Record();
-//                        System.out.println(getCellValue(row.getCell(2)));
-//                        record.setA_id(getCellValue(row.getCell(0)));
-//                        record.setCheckvalue(getCellValue(row.getCell(1)));
-//                        record.setDate(getCellValue(row.getCell(2)));
-//                        record.setRemark(getCellValue(row.getCell(3)));
-//                        record.setDoexecuteby(getCellValue(row.getCell(4)));
-//                        record.setLineindex(getCellValue(row.getCell(5)));
-//                        record.setCheckexecuteby(getCellValue(row.getCell(6)));
-//                        record.setStationindex(getCellValue(row.getCell(7)));
-//                        record.setLinename(getCellValue(row.getCell(8)));
-//                        record.setShift(getCellValue(row.getCell(9)));
-//                        record.setStationname(getCellValue(row.getCell(10)));
-//                        record.setSubmitdate(getCellValue(row.getCell(11)));
-//                        record.setNo(getCellValue(row.getCell(12)));
-//                        record.setWhattomaintain(getCellValue(row.getCell(13)));
-//                        record.setInterval(getCellValue(row.getCell(14)).substring(1));
-//                        record.setCosttime(getCellValue(row.getCell(15)));
-//                        record.setDoby(getCellValue(row.getCell(16)));
-//                        record.setCheckby(getCellValue(row.getCell(17)));
+
                         System.out.println(getCellValue(row.getCell(2)));
                         record.setA_id(getCellValue(row.getCell(0)));
                         record.setCheckvalue(getCellValue(row.getCell(1)));
