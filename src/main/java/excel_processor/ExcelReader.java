@@ -212,7 +212,7 @@ public class ExcelReader {
                     List<Record> records3 = firstEntry3.getValue();
                     if (records3 != null && !records3.isEmpty()) {
                         Record firstRecord3 = records3.get(0);
-                        stationIndex = firstRecord3.getStationindex(); // 假设存在 getter 方法
+                        stationIndex = firstRecord3.getStationindex();
                         System.out.println("Stationindex: " + stationIndex);
                     } else {
                         System.out.println("The value list is empty.");
