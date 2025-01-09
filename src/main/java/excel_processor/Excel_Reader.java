@@ -242,9 +242,9 @@ public class Excel_Reader {
             }
 
             AtomicInteger row_num = new AtomicInteger(5);
-            Excel_Replace_Row _insert = new Excel_Replace_Row(outputFile);
+            ExcelReplaceRow _insert = new ExcelReplaceRow(outputFile);
             Map_of_Row.forEach((key_of_row, recordList) -> {
-                _insert.process_rows(key_of_row, row_num.get(), recordList);
+                _insert.processRows(key_of_row, row_num.get(), recordList);
                 row_num.getAndIncrement();
                 System.out.println("\tRow: " + key_of_row);
                 Iterator var4 = recordList.iterator();
@@ -275,9 +275,9 @@ public class Excel_Reader {
         });
     }
 
-    private static void insert_one_row_confirm(List<Record> dayly, Excel_Replace_Row _insert, AtomicInteger row_num) {
+    private static void insert_one_row_confirm(List<Record> dayly, ExcelReplaceRow _insert, AtomicInteger row_num) {
         if (dayly != null && !dayly.isEmpty()) {
-            _insert.process_rows_confirm(row_num.get(), dayly);
+            _insert.processRowsConfirm(row_num.get(), dayly);
         }
 
     }

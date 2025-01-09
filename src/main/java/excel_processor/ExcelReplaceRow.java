@@ -18,10 +18,10 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 
-public class Excel_Replace_Row {
+public class ExcelReplaceRow {
     public String targetFile;
 
-    public Excel_Replace_Row(String targetFile) {
+    public ExcelReplaceRow(String targetFile) {
         this.targetFile = targetFile;
     }
 
@@ -50,7 +50,7 @@ public class Excel_Replace_Row {
         }
     }
 
-    public void process_rows(List<String> key, int row_num, List<Record> recordsList) {
+    public void processRows(List<String> key, int row_num, List<Record> recordsList) {
         Workbook workbook = null;
 
         try {
@@ -130,7 +130,7 @@ public class Excel_Replace_Row {
         }
     }
 
-    public void process_rows_confirm(int row_num, List<Record> recordsList) {
+    public void processRowsConfirm(int row_num, List<Record> recordsList) {
         Workbook workbook = null;
 
         try {
