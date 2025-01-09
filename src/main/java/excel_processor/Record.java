@@ -84,8 +84,7 @@ public class Record {
                     uniqueByCheckexecutebyAndDate.put(key, record);
                 });
                 stationMap.put(interval, new ArrayList<>(uniqueByCheckexecutebyAndDate.values()));
-//                替换原来的记录列表
-//                由于 stationMap 是 map_of_stations_confirm 的一部分，因此 map_of_stations_confirm 的内容也被修改了。
+//                替换原来的记录列表,由于 stationMap 是 map_of_stations_confirm 的一部分，因此 map_of_stations_confirm 的内容也被修改了。
             });
         });
         // 遍历打印
