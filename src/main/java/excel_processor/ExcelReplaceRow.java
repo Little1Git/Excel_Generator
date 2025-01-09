@@ -22,28 +22,34 @@ public class ExcelReplaceRow {
 
     public Workbook readExcelTemplate() {
         try {
-            InputStream inputStream = new FileInputStream(this.targetFile);
+            // 创建文件输入流
+            InputStream fileInputStream = new FileInputStream(this.targetFile);
 
-            XSSFWorkbook var2;
+            XSSFWorkbook workbook;
             try {
-                var2 = new XSSFWorkbook(inputStream);
-            } catch (Throwable var5) {
+                // 使用文件输入流创建 XSSFWorkbook 对象
+                workbook = new XSSFWorkbook(fileInputStream);
+            } catch (Throwable exceptionDuringWorkbookCreation) {
                 try {
-                    inputStream.close();
-                } catch (Throwable var4) {
-                    var5.addSuppressed(var4);
+                    // 如果创建 Workbook 时抛出异常，关闭输入流
+                    fileInputStream.close();
+                } catch (Throwable exceptionDuringStreamClose) {
+                    // 将关闭流时的异常添加为被抑制的异常
+                    exceptionDuringWorkbookCreation.addSuppressed(exceptionDuringStreamClose);
                 }
-
-                throw var5;
+                throw exceptionDuringWorkbookCreation;
             }
 
-            inputStream.close();
-            return var2;
-        } catch (IOException var6) {
-            var6.printStackTrace();
-            throw new RuntimeException("读取 Excel 文件失败", var6);
+            // 关闭文件输入流
+            fileInputStream.close();
+            return workbook;
+        } catch (IOException ioException) {
+            // 捕获 IO 异常并打印堆栈信息
+            ioException.printStackTrace();
+            throw new RuntimeException("读取 Excel 文件失败", ioException);
         }
     }
+
 
     public void processRows(List<String> headers, int rowNumber, List<Record> recordList) {
         Workbook workbook = null;
