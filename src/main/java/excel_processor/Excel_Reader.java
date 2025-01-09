@@ -40,25 +40,45 @@ public class Excel_Reader {
                     while(rowIterator.hasNext()) {
                         Row row = (Row)rowIterator.next();
                         Record record = new Record();
+//                        System.out.println(getCellValue(row.getCell(2)));
+//                        record.setA_id(getCellValue(row.getCell(0)));
+//                        record.setCheckvalue(getCellValue(row.getCell(1)));
+//                        record.setDate(getCellValue(row.getCell(2)));
+//                        record.setRemark(getCellValue(row.getCell(3)));
+//                        record.setDoexecuteby(getCellValue(row.getCell(4)));
+//                        record.setLineindex(getCellValue(row.getCell(5)));
+//                        record.setCheckexecuteby(getCellValue(row.getCell(6)));
+//                        record.setStationindex(getCellValue(row.getCell(7)));
+//                        record.setLinename(getCellValue(row.getCell(8)));
+//                        record.setShift(getCellValue(row.getCell(9)));
+//                        record.setStationname(getCellValue(row.getCell(10)));
+//                        record.setSubmitdate(getCellValue(row.getCell(11)));
+//                        record.setNo(getCellValue(row.getCell(12)));
+//                        record.setWhattomaintain(getCellValue(row.getCell(13)));
+//                        record.setInterval(getCellValue(row.getCell(14)).substring(1));
+//                        record.setCosttime(getCellValue(row.getCell(15)));
+//                        record.setDoby(getCellValue(row.getCell(16)));
+//                        record.setCheckby(getCellValue(row.getCell(17)));
                         System.out.println(getCellValue(row.getCell(2)));
                         record.setA_id(getCellValue(row.getCell(0)));
                         record.setCheckvalue(getCellValue(row.getCell(1)));
                         record.setDate(getCellValue(row.getCell(2)));
                         record.setRemark(getCellValue(row.getCell(3)));
                         record.setDoexecuteby(getCellValue(row.getCell(4)));
-                        record.setLineindex(getCellValue(row.getCell(5)));
-                        record.setCheckexecuteby(getCellValue(row.getCell(6)));
-                        record.setStationindex(getCellValue(row.getCell(7)));
-                        record.setLinename(getCellValue(row.getCell(8)));
-                        record.setShift(getCellValue(row.getCell(9)));
-                        record.setStationname(getCellValue(row.getCell(10)));
-                        record.setSubmitdate(getCellValue(row.getCell(11)));
-                        record.setNo(getCellValue(row.getCell(12)));
-                        record.setWhattomaintain(getCellValue(row.getCell(13)));
-                        record.setInterval(getCellValue(row.getCell(14)).substring(1));
-                        record.setCosttime(getCellValue(row.getCell(15)));
-                        record.setDoby(getCellValue(row.getCell(16)));
-                        record.setCheckby(getCellValue(row.getCell(17)));
+                        record.setLineindex(getCellValue(row.getCell(5+1)));
+                        record.setCheckexecuteby(getCellValue(row.getCell(6+1)));
+                        record.setStationindex(getCellValue(row.getCell(7+1)));
+                        record.setLinename(getCellValue(row.getCell(8+3)));
+                        record.setShift(getCellValue(row.getCell(9+3)));
+                        record.setStationname(getCellValue(row.getCell(10+3)));
+                        record.setSubmitdate(getCellValue(row.getCell(11+3)));
+                        record.setNo(getCellValue(row.getCell(12+3)));
+                        record.setWhattomaintain(getCellValue(row.getCell(13+3)));
+                        record.setInterval(getCellValue(row.getCell(14+3)).substring(1));
+                        record.setCosttime(getCellValue(row.getCell(15+3)));
+                        record.setDoby(getCellValue(row.getCell(16+3)));
+                        record.setCheckby(getCellValue(row.getCell(17+3)));
+
                         records.add(record);
                     }
                 } catch (Throwable var10) {
@@ -119,8 +139,11 @@ public class Excel_Reader {
 
 //        String filePath = "C:/Users/AQY2SZH/Desktop/checklist_old.xlsx";
 //        List<Record> records2 = readExcel(filePath);
-//        List<Record> records = ArrayList<>();
-        List<Record> records = new ArrayList<>();
+
+        String filePath = "C:/Users/AQY2SZH/Downloads/checkitem.xlsx";
+        List<Record> records = readExcel(filePath);
+
+//        List<Record> records = new ArrayList<>();
 //
         // 获取当前时间
         Date currentDate = new Date();
@@ -136,25 +159,27 @@ public class Excel_Reader {
                 "remark3","doexe3","lineindex3","checkexe3","stationindex1","linename3","shift3","stationname1",cur,
                 "no3","maintain3","Daily","8","doby3","checkby3"));
 
+
         // 示例 OtherInfo 列表
         List<OtherInfo> otherInfoList = Arrays.asList(
 //                new OtherInfo("001", "Document1", "Prepare1", "Review1", "Approve1", "Edition1"),
 //                new OtherInfo("002", "Document2", "Prepare2", "Review2", "Approve2", "Edition2"),
 //                new OtherInfo("003", "Document3", "Prepare3", "Review3", "Approve3", "Edition3"),
                 new OtherInfo("stationindex1", "Document3", "Prepare3", "Review3", "Approve3", "Edition3"),
-                new OtherInfo("stationindex2", "Document3", "Prepare3", "Review3", "Approve3", "Edition3")
-        );
+                new OtherInfo("stationindex2", "Document3", "Prepare3", "Review3", "Approve3", "Edition3"),
+                new OtherInfo("S003221", "Document3", "Prepare3", "Review3", "Approve3", "Edition3")
+                );
 
         Generate_Excel(records,otherInfoList);
     }
 
     public static void Generate_Excel(List<Record> records, List<OtherInfo> otherInfoList) {
-//        String father_path="data/files/excel";
+        String father_path="data/files/excel";
         // 获取当前执行路径
         String currentPath = System.getProperty("user.dir");
         // 输出当前路径
         System.out.println("当前执行路径: " + currentPath);
-        String father_path="/opt/mendix/build/data/files/excel";
+//        String father_path="/opt/mendix/build/data/files/excel";
         exist_or_create(father_path);
 
         // 使用 Stream API 创建 Map
