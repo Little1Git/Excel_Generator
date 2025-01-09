@@ -114,14 +114,11 @@ public class ExcelReader {
 
     public static void main(String[] args) {
 
-//        String filePath = "C:/Users/AQY2SZH/Desktop/checklist_old.xlsx";
-//        List<Record> records2 = readExcel(filePath);
-
         String filePath = "C:/Users/AQY2SZH/Downloads/checkitem.xlsx";
         List<Record> records = readExcel(filePath);
 
 //        List<Record> records = new ArrayList<>();
-//
+
         // 获取当前时间
         Date currentDate = new Date();
         String cur = currentDate.toString();
@@ -145,19 +142,21 @@ public class ExcelReader {
                 new OtherInfo("S003221", "Document3", "Prepare3", "Review3", "Approve3", "Edition3")
                 );
 
-        Generate_Excel(records,otherInfoList);
+        //        String father_path="/opt/mendix/build/data/files/excel";
+        String father_path = "data/files/excel";
+        Generate_Excel(records,otherInfoList,father_path);
     }
 
-    public static void Generate_Excel(List<Record> records, List<OtherInfo> otherInfoList) {
-        String father_path="data/files/excel";
+    public static void Generate_Excel(List<Record> records, List<OtherInfo> otherInfoList,String father_path) {
+
         // 获取当前执行路径
         String currentPath = System.getProperty("user.dir");
         // 输出当前路径
-        System.out.println("当前执行路径: " + currentPath);
-//        String father_path="/opt/mendix/build/data/files/excel";
+        System.out.println("JVM当前执行路径: " + currentPath);
+
         exist_or_create(father_path);
 
-        // 使用 Stream API 创建 Map
+        // 使用 Stream API 创建 Map stationindex分类
         Map<String, OtherInfo> otherInfoMap = otherInfoList.stream()
                 .collect(Collectors.toMap(OtherInfo::getStation_index, otherInfo -> otherInfo));
 
@@ -186,7 +185,7 @@ public class ExcelReader {
             xlsx_name += "_" + stationindex + "_" + year + "_" + convertMonthToNumber(month);
 
             String outputFile = father_path + "/" + xlsx_name + ".xlsx";
-            System.out.println(outputFile);
+            System.out.println("保存文件: " + outputFile);
 
             ExcelCopyRow.copyRowsInSheet(num_of_Rows, outputFile);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -266,7 +265,10 @@ public class ExcelReader {
             insert_one_row_confirm(monthly, _insert, row_num);
             row_num.getAndIncrement();
             insert_one_row_confirm(shiftly, _insert, row_num);
+            //填充
+            _insert.fillEmptyCellsFromRow5();
         });
+
     }
 
     private static void insert_one_row_confirm(List<Record> dayly, ExcelReplaceRow _insert, AtomicInteger row_num) {

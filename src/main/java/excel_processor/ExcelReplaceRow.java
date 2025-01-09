@@ -188,4 +188,66 @@ public class ExcelReplaceRow {
         }
     }
 
+    public void fillEmptyCellsFromRow5() {
+        Workbook workbook = null;
+
+        try {
+            // 读取 Excel 文件
+            workbook = this.readExcelTemplate();
+            Sheet sheet = workbook.getSheetAt(0);
+
+            // 从第5行开始遍历
+            for (int rowIndex = 4; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+                Row row = sheet.getRow(rowIndex);
+                if (row == null) {
+                    // 如果行为空，结束遍历
+                    break;
+                }
+
+                // 检查第1到6列是否有值
+                boolean hasAllValues = true;
+                for (int colIndex = 0; colIndex < 6; colIndex++) {
+                    Cell cell = row.getCell(colIndex);
+                    if (cell == null || cell.getStringCellValue().trim().isEmpty()) {
+                        hasAllValues = false;
+                        break;
+                    }
+                }
+
+                if (!hasAllValues) {
+                    // 如果第1到6列没有值，结束遍历
+                    break;
+                }
+
+                // 从第7列到第37列检查并填充空单元格
+                for (int colIndex = 6; colIndex < 37; colIndex++) {
+                    Cell cell = row.getCell(colIndex);
+                    if (cell == null || cell.getStringCellValue().trim().isEmpty()) {
+                        if (cell == null) {
+                            cell = row.createCell(colIndex);
+                        }
+                        cell.setCellValue("--");
+                    }
+                }
+            }
+
+            // 保存文件
+            try (FileOutputStream fileOutputStream = new FileOutputStream(this.targetFile)) {
+                workbook.write(fileOutputStream);
+            }
+
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException("处理 Excel 文件失败", exception);
+        } finally {
+            if (workbook != null) {
+                try {
+                    workbook.close();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        }
+    }
+
 }
