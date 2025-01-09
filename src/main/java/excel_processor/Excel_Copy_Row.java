@@ -19,13 +19,6 @@ import java.util.Date;
 public class Excel_Copy_Row {
     public Excel_Copy_Row() {
     }
-//    public static void main(String[] args) {
-//        // 获取当前时间
-//        Date currentDate = new Date();
-//
-//        // 输出当前时间
-//        System.out.println(currentDate.toString());
-//    }
 
     public static void copy_rows_in_right_sheet(int copyTimes, String outputFile) {
         int targetRowIndex = 4;

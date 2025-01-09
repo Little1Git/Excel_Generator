@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -188,7 +187,7 @@ public class Excel_Reader {
 
         Map<String, List<Record>> groupedRecords_by_station = Record.groupByStationName(records);//stationname分类
 
-
+// 用于confirm表格的,按间隔分组,同名去重
         Map<String, Map<String, List<Record>>> stations_intervals = Record.group_by_stations_and_interval(groupedRecords_by_station);// confirm
         Map<String, Map<List<String>, List<Record>>> classifiedRecords_by_row = Record.classifyRecords(groupedRecords_by_station);// 二维表
         int num_of_stations = classifiedRecords_by_row.size();
@@ -274,6 +273,7 @@ public class Excel_Reader {
                 }
 
             });
+            // confirm
             row_num.getAndIncrement();
             row_num.getAndIncrement();
             Map<String, List<Record>> interval_confirm = (Map)stations_intervals.get(stationName);
