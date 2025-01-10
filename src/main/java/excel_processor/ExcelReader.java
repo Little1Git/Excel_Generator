@@ -243,16 +243,16 @@ public class ExcelReader {
             LinkedHashMap<List<String>, List<Record>> sortedMap_of_row = HashMap_LinkedMap.sortMapByKey(HashMap_of_Row);
             // 插入正文,第一个表
             sortedMap_of_row.forEach((key_of_row, recordList) -> {
-                        _insert.processOneExcelRow(key_of_row, row_num.get(), recordList);
-                        row_num.getAndIncrement();
-                        System.out.println("\tRow: " + key_of_row);
-                        Iterator iterator_recordlist = recordList.iterator();
+                    _insert.processOneExcelRow(key_of_row, row_num.get(), recordList);
+                    row_num.getAndIncrement();
+                    System.out.println("\tRow: " + key_of_row);
+                    Iterator iterator_recordlist = recordList.iterator();
 
-                        while(iterator_recordlist.hasNext()) {
-                            Record record = (Record)iterator_recordlist.next();
-                            System.out.println("\t\t" + record);
-                        }
-                    });
+                    while(iterator_recordlist.hasNext()) {
+                        Record record = (Record)iterator_recordlist.next();
+                        System.out.println("\t\t" + record);
+                    }
+                });
 
 //            HashMap_of_Row.forEach((key_of_row, recordList) -> {
 //                _insert.processOneExcelRow(key_of_row, row_num.get(), recordList);
@@ -264,9 +264,7 @@ public class ExcelReader {
 //                    Record record = (Record)iterator_recordlist.next();
 //                    System.out.println("\t\t" + record);
 //                }
-//
-//            }
-//            );
+//            });
             // confirm
             row_num.getAndIncrement();
             row_num.getAndIncrement();
