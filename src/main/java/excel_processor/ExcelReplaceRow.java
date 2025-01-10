@@ -50,7 +50,7 @@ public class ExcelReplaceRow {
     }
 
 
-    public void processRows(List<String> headers, int rowNumber, List<Record> recordList) {
+    public void processOneExcelRow(List<String> headers, int rowNumber, List<Record> recordList) {
         Workbook workbook = null;
 
         try {
@@ -70,6 +70,10 @@ public class ExcelReplaceRow {
                 }
                 cell.setCellValue(headers.get(columnIndex));
             }
+            // 单独设置No
+            Cell cell = row.getCell(0);
+            cell.setCellValue(String.valueOf (rowNumber-4));
+
 
             // 遍历记录列表
             for (Record record : recordList) {

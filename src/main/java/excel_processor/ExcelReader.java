@@ -136,13 +136,12 @@ public class ExcelReader {
 
         // 示例 OtherInfo 列表
         List<OtherInfo> otherInfoList = Arrays.asList(
-
                 new OtherInfo("stationindex1", "Document3", "Prepare3", "Review3", "Approve3", "Edition3"),
                 new OtherInfo("stationindex2", "Document3", "Prepare3", "Review3", "Approve3", "Edition3"),
                 new OtherInfo("S003221", "Document3", "Prepare3", "Review3", "Approve3", "Edition3")
                 );
 
-        //        String father_path="/opt/mendix/build/data/files/excel";
+//        String father_path="/opt/mendix/build/data/files/excel";
         String father_path = "data/files/excel";
         Generate_Excel(records,otherInfoList,father_path);
     }
@@ -238,7 +237,7 @@ public class ExcelReader {
             AtomicInteger row_num = new AtomicInteger(5);
             ExcelReplaceRow _insert = new ExcelReplaceRow(outputFile);
             Map_of_Row.forEach((key_of_row, recordList) -> {
-                _insert.processRows(key_of_row, row_num.get(), recordList);
+                _insert.processOneExcelRow(key_of_row, row_num.get(), recordList);
                 row_num.getAndIncrement();
                 System.out.println("\tRow: " + key_of_row);
                 Iterator iterator_recordlist = recordList.iterator();
