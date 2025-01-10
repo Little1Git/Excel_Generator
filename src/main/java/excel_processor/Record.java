@@ -41,10 +41,10 @@ public class Record {
 
     public static Map<String, Map<List<String>, List<Record>>> classifyRecords(Map<String, List<Record>> groupedRecords) {
         Map<String, Map<List<String>, List<Record>>> result = new HashMap();
-        Iterator var2 = groupedRecords.entrySet().iterator();
+        Iterator iterator_records = groupedRecords.entrySet().iterator();
 
-        while(var2.hasNext()) {
-            Map.Entry<String, List<Record>> entry = (Map.Entry)var2.next();
+        while(iterator_records.hasNext()) {
+            Map.Entry<String, List<Record>> entry = (Map.Entry)iterator_records.next();
             String stationName = (String)entry.getKey();
             List<Record> records = (List)entry.getValue();
             Map<List<String>, List<Record>> classified = (Map)records.stream().collect(Collectors.groupingBy((record) -> {

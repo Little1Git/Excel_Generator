@@ -230,20 +230,21 @@ public class ExcelReader {
                 String approve=info.getApprove();
                 String edition=info.getEdition();
                 Update_Table_Information.update_table_info2(outputFile,document,prepare,review,approve,edition);
-            } catch (IOException var24) {
-                var24.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
+            // 插入正文,第一个表
             AtomicInteger row_num = new AtomicInteger(5);
             ExcelReplaceRow _insert = new ExcelReplaceRow(outputFile);
             Map_of_Row.forEach((key_of_row, recordList) -> {
                 _insert.processRows(key_of_row, row_num.get(), recordList);
                 row_num.getAndIncrement();
                 System.out.println("\tRow: " + key_of_row);
-                Iterator var4 = recordList.iterator();
+                Iterator iterator_recordlist = recordList.iterator();
 
-                while(var4.hasNext()) {
-                    Record record = (Record)var4.next();
+                while(iterator_recordlist.hasNext()) {
+                    Record record = (Record)iterator_recordlist.next();
                     System.out.println("\t\t" + record);
                 }
 
@@ -289,8 +290,8 @@ public class ExcelReader {
                 } else {
                     System.out.println("文件夹创建失败：" + outputFolderPath);
                 }
-            } catch (SecurityException var3) {
-                System.err.println("创建文件夹时出现安全异常：" + var3.getMessage());
+            } catch (SecurityException e) {
+                System.err.println("创建文件夹时出现安全异常：" + e.getMessage());
             }
         } else {
             System.out.println("文件夹已存在：" + outputFolderPath);
