@@ -123,15 +123,15 @@ public class ExcelReader {
         Date currentDate = new Date();
         String cur = currentDate.toString();
 
-        records.add(new Record("id1","check1", cur,
-                "remark1","doexe1","lineindex1","checkexe1","stationindex1","linename1","shift1","stationname1",cur,
-                "no1","maintain1","Daily","10","doby1","checkby1"));
-        records.add(new Record("id2","check2", cur,
-                "remark2","doexe2","lineindex2","checkexe2","stationindex2","linename2","shift2","stationname2",cur,
-                "no2","maintain2","Daily","9","doby2","checkby2"));
-        records.add(new Record("id3","check3", cur,
-                "remark3","doexe3","lineindex3","checkexe3","stationindex1","linename3","shift3","stationname1",cur,
-                "no3","maintain3","Daily","8","doby3","checkby3"));
+//        records.add(new Record("id1","check1", cur,
+//                "remark1","doexe1","lineindex1","checkexe1","stationindex1","linename1","shift1","stationname1",cur,
+//                "no1","maintain1","Daily","10","doby1","checkby1"));
+//        records.add(new Record("id2","check2", cur,
+//                "remark2","doexe2","lineindex2","checkexe2","stationindex2","linename2","shift2","stationname2",cur,
+//                "no2","maintain2","Daily","9","doby2","checkby2"));
+//        records.add(new Record("id3","check3", cur,
+//                "remark3","doexe3","lineindex3","checkexe3","stationindex1","linename3","shift3","stationname1",cur,
+//                "no3","maintain3","Daily","8","doby3","checkby3"));
 
 
         // 示例 OtherInfo 列表
@@ -143,10 +143,11 @@ public class ExcelReader {
 
 //        String father_path="/opt/mendix/build/data/files/excel";
         String father_path = "data/files/excel";
-        Generate_Excel(records,otherInfoList,father_path);
+        String update_date = "2025-01-11";
+        Generate_Excel(records,otherInfoList,father_path,update_date);
     }
 
-    public static void Generate_Excel(List<Record> records, List<OtherInfo> otherInfoList,String father_path) {
+    public static void Generate_Excel(List<Record> records, List<OtherInfo> otherInfoList,String father_path,String update_date) {
 
         // 获取当前执行路径
         String currentPath = System.getProperty("user.dir");
@@ -161,18 +162,18 @@ public class ExcelReader {
 
         Map<String, List<Record>> groupedRecords_by_station = Record.groupByStationName(records);//stationname分类
 
-// 用于confirm表格的,按间隔分组,同名去重
+        // 用于confirm表格的,按间隔分组,同名去重
         Map<String, Map<String, List<Record>>> stations_intervals = Record.group_by_stations_and_interval(groupedRecords_by_station);// confirm
         Map<String, Map<List<String>, List<Record>>> classifiedRecords_by_row = Record.classifyRecords(groupedRecords_by_station);// 二维表
         int num_of_stations = classifiedRecords_by_row.size();
         System.out.println("num_of_stations: " + num_of_stations);
-        classifiedRecords_by_row.forEach((stationName, Map_of_Row) -> {
+        classifiedRecords_by_row.forEach((stationName, HashMap_of_Row) -> {
             System.out.println("Station Name: " + stationName);
-            int num_of_Rows = Map_of_Row.size();
+            int num_of_Rows = HashMap_of_Row.size();
             System.out.println("num_of_Rows: " + num_of_Rows);
 
 //            获取第一个元素
-            Map.Entry<List<String>, List<Record>> firstEntry = (Map.Entry)Map_of_Row.entrySet().iterator().next();
+            Map.Entry<List<String>, List<Record>> firstEntry = (Map.Entry)HashMap_of_Row.entrySet().iterator().next();
             Record firstRecord = (Record)((List)firstEntry.getValue()).get(0);
             String stationindex = firstRecord.stationindex;
             String xlsx_date = firstRecord.date;
@@ -200,11 +201,12 @@ public class ExcelReader {
             String Year = table_date.substring(table_date.length() - 4);
 
             try {
-                Update_Table_Information.update_table_info(outputFile, Update_time, Machine_Name, monthFullName, Year);
+                // 表级别信息
+                Update_Table_Information.update_table_info(outputFile, update_date, Machine_Name, monthFullName, Year);
                 String stationIndex = null;
-                if (!Map_of_Row.isEmpty()) {
+                if (!HashMap_of_Row.isEmpty()) {
                     // 获取 Map 的第一个 entry
-                    Map.Entry<List<String>, List<Record>> firstEntry3 = Map_of_Row.entrySet().iterator().next();
+                    Map.Entry<List<String>, List<Record>> firstEntry3 = HashMap_of_Row.entrySet().iterator().next();
 
                     // 获取 List<Record> 的第一个元素
                     List<Record> records3 = firstEntry3.getValue();
@@ -236,7 +238,7 @@ public class ExcelReader {
             // 插入正文,第一个表
             AtomicInteger row_num = new AtomicInteger(5);
             ExcelReplaceRow _insert = new ExcelReplaceRow(outputFile);
-            Map_of_Row.forEach((key_of_row, recordList) -> {
+            HashMap_of_Row.forEach((key_of_row, recordList) -> {
                 _insert.processOneExcelRow(key_of_row, row_num.get(), recordList);
                 row_num.getAndIncrement();
                 System.out.println("\tRow: " + key_of_row);
