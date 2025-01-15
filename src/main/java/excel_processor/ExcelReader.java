@@ -124,21 +124,25 @@ public class ExcelReader {
         String cur = currentDate.toString();
 
         records.add(new Record("id1","check1", cur,
-                "remark1","doexe1","lineindex1","checkexe1","stationindex1","linename1","shift1","stationname1",cur,
-                "no1","maintain1","Shiftly","10","doby1","checkby1"));
+                "remark1","doexe1","lineindex1","MENG Ethan (ME/MFE-PE-CN)","stationindex1","linename1","shift1","stationname1",cur,
+                "no1","maintain1","Daily","10","doby1","checkby1"));
+        records.add(new Record("id1","check1", cur,
+                "remark1","doexe12","lineindex1","MENG Ethan (ME/MFE-PE-CN)","stationindex1","linename1","shift1","stationname1",cur,
+                "no1","maintain1","Daily","10","doby1","checkby1"));
         records.add(new Record("id2","check2", cur,
                 "remark2","doexe2","lineindex2","checkexe2","stationindex2","linename2","shift2","stationname2",cur,
                 "no2","maintain2","Shiftly","9","doby2","checkby2"));
         records.add(new Record("id3","check3", cur,
-                "remark3","doexe3","lineindex3","checkexe3","stationindex1","linename3","shift3","stationname1",cur,
-                "no3","maintain3","Shiftly","8","doby3","checkby3"));
+                "remark3","doexe3","lineindex3","checkexe1 (sss)","stationindex1","linename3","shift3","stationname1",cur,
+                "no3","maintain3","Daily","8","doby3","checkby3"));
 
 
         // 示例 OtherInfo 列表
         List<OtherInfo> otherInfoList = Arrays.asList(
                 new OtherInfo("stationindex1", "Document3", "Prepare3", "Review3", "Approve3", "Edition3"),
                 new OtherInfo("stationindex2", "Document3", "Prepare3", "Review3", "Approve3", "Edition3"),
-                new OtherInfo("S003221", "Document3", "Prepare3", "Review3", "Approve3", "Edition3")
+                new OtherInfo("S003221", "Document3", "Prepare3", "Review3", "Approve3", "Edition3"),
+                new OtherInfo("S003329", "Document3", "Prepare3", "Review3", "Approve3", "Edition3")
                 );
 
 //        String father_path="/opt/mendix/build/data/files/excel";
