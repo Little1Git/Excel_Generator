@@ -125,13 +125,13 @@ public class ExcelReader {
 
         records.add(new Record("id1","check1", cur,
                 "remark1","doexe1","lineindex1","checkexe1","stationindex1","linename1","shift1","stationname1",cur,
-                "no1","maintain1","Daily","10","doby1","checkby1"));
+                "no1","maintain1","Shiftly","10","doby1","checkby1"));
         records.add(new Record("id2","check2", cur,
                 "remark2","doexe2","lineindex2","checkexe2","stationindex2","linename2","shift2","stationname2",cur,
-                "no2","maintain2","Daily","9","doby2","checkby2"));
+                "no2","maintain2","Shiftly","9","doby2","checkby2"));
         records.add(new Record("id3","check3", cur,
                 "remark3","doexe3","lineindex3","checkexe3","stationindex1","linename3","shift3","stationname1",cur,
-                "no3","maintain3","Daily","8","doby3","checkby3"));
+                "no3","maintain3","Shiftly","8","doby3","checkby3"));
 
 
         // 示例 OtherInfo 列表
@@ -187,7 +187,7 @@ public class ExcelReader {
             String outputFile = father_path + "/" + xlsx_name + ".xlsx";
             System.out.println("保存文件: " + outputFile);
 
-            ExcelCopyRow.copyRowsInSheet(num_of_Rows, outputFile);
+            ExcelCopyRow.copyRowsInSheet(num_of_Rows-1, outputFile); // 复制所有空行
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String Update_time = dateFormat.format(new Date());
             String Machine_Name = "Machine Name: " + stationName;
@@ -266,7 +266,7 @@ public class ExcelReader {
 //                }
 //            });
             // confirm
-            row_num.getAndIncrement();
+//            row_num.getAndIncrement(); //注释因为少插入一行
             row_num.getAndIncrement();
             Map<String, List<Record>> interval_confirm = (Map)stations_intervals.get(stationName);
             List<Record> dayly = (List)interval_confirm.get("Daily");
