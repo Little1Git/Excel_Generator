@@ -6,9 +6,9 @@ public class HashMap_LinkedMap {
 
     // 自定义排序规则
     private static final List<String> ORDER = Arrays.asList(
-            "Shiftly", "Daily", "Weekly", "Bi-Weekly",
-            "Monthly", "Bi-Monthly", "Quarterly", "HalfYear",
-            "Yearly", "Bi-Yearly"
+            "Shiftly", "Daily", "Weekly", "Bi_Weekly",
+            "Monthly", "Bi_Monthly", "Quarterly", "HalfYear",
+            "Yearly", "Bi_Yearly"
     );
 
     public static  LinkedHashMap<List<String>, List<Record>> sortMapByKey(Map<List<String>, List<Record>> inputMap) {

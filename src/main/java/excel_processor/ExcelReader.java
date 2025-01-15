@@ -280,9 +280,9 @@ public class ExcelReader {
             insert_one_row_confirm(bweekly, _insert, row_num);
             row_num.getAndIncrement();
             insert_one_row_confirm(monthly, _insert, row_num);
-            row_num.getAndIncrement();
-            insert_one_row_confirm(shiftly, _insert, row_num);
-            //填充
+//            row_num.getAndIncrement();
+//            insert_one_row_confirm(shiftly, _insert, row_num);
+            //填充--
             _insert.fillEmptyCellsFromRow5();
         });
 
