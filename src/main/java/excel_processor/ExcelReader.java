@@ -271,17 +271,18 @@ public class ExcelReader {
 //            });
             // confirm
 //            row_num.getAndIncrement(); //注释因为少插入一行
-            row_num.getAndIncrement();
+
             Map<String, List<Record>> interval_confirm = (Map)stations_intervals.get(stationName);
             List<Record> dayly = (List)interval_confirm.get("Daily");
             List<Record> weekly = (List)interval_confirm.get("Weekly");
             List<Record> bweekly = (List)interval_confirm.get("Bi_Weekly");
             List<Record> monthly = (List)interval_confirm.get("Monthly");
             List<Record> shiftly = (List)interval_confirm.get("Shiftly");
+            row_num.getAndIncrement();
             insert_one_row_confirm(dayly, _insert, row_num);
             row_num.getAndIncrement();
             insert_one_row_confirm(weekly, _insert, row_num);
-            insert_one_row_confirm(bweekly, _insert, row_num);
+//            insert_one_row_confirm(bweekly, _insert, row_num);
             row_num.getAndIncrement();
             insert_one_row_confirm(monthly, _insert, row_num);
 //            row_num.getAndIncrement();
